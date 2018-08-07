@@ -53,9 +53,9 @@ bikemunpredapp.controller('BikeController', function BikeController($scope) {
 
     ]
   $scope.load = function() {
-    $('#myDate').attr('min', $scope.todayDate(1));
-    $('#myDate').attr('max', $scope.todayDate(7));
-    $('#myDate').attr('value', $scope.todayDate(1));
+    $('#myDate').attr('min', $scope.formatDate(1));
+    $('#myDate').attr('max', $scope.formatDate(7));
+    $('#myDate').attr('value', $scope.formatDate(1));
     $scope.map = L.map('map').setView([30.0444, 31.2357], 2);
       var OpenStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -96,11 +96,13 @@ bikemunpredapp.controller('BikeController', function BikeController($scope) {
   $scope.selectRealtimeClicked = function(){
     $scope.predict = false;
   }
-  $scope.todayDate = function(excessdays = 0) {
+  $scope.formatDate = function(excessdays = 0) {
     var today = new Date(); // get the current date
-    var dd = today.getDate() + excessdays; //get the day from today.
-    var mm = today.getMonth()+1; //get the month from today +1 because january is 0!
-    var yyyy = today.getFullYear(); //get the year from today
+    var date =  today;
+    date.setDate(today.getDate() + excessdays)
+    var dd = date.getDate() ; //get the day from today.
+    var mm = date.getMonth()+1; //get the month from today +1 because january is 0!
+    var yyyy = date.getFullYear(); //get the year from today
 
     //if day is below 10, add a zero before (ex: 9 -> 09)
     if(dd<10) {
