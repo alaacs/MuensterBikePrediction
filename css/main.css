@@ -1,0 +1,13 @@
+.marker-icon-div {
+  border:0;
+  background: transparent;
+  text-align: center;
+}
+.marker-bike-counter {
+  font-weight: bold;
+  font-size: large
+}
+.marker-icon-img
+{
+    margin-bottom: -8px;
+}
