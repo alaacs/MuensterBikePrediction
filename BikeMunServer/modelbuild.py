@@ -17,11 +17,11 @@ def buildmodel(inputfile, output_model, output_results):
 
 	## -------------- PARAMETER TESTING --------------------
 	# Create a training and test set
-	train = data.sample(frac = 0.7)
-	test = data.drop(train.index)	
+	train = data.sample(frac = 0.8)
+	test = data.drop(train.index)
 
-	# Define the values to be tested for
-	values = [10, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400, 500, 750, 1000]	
+	# Define the values of n_estimators to be tested for (number of trees)
+	estimators_values = [10, 20, 40, 60, 80, 100, 150, 200, 250, 300, 400, 500, 750, 1000]	
 
 	# Create an empty list to store the rmse values in
 	rmse_list = []	
@@ -29,7 +29,7 @@ def buildmodel(inputfile, output_model, output_results):
 	# Build a Random Forest Regression model with each of the values
 	# Predict the test set with the model and calculate the rmse
 	# Store the rmse in the rmse_list
-	for x in values:
+	for x in estimators_values:
 		model = RandomForestRegressor(n_estimators = x)
 		model.fit(train.iloc[:,2:], train.iloc[:,1])	
 
@@ -39,15 +39,58 @@ def buildmodel(inputfile, output_model, output_results):
 
 	# Select the value that leads to the lowest error
 	min_index = rmse_list.index(min(rmse_list))
-	ntrees = values[min_index]	
+	estimators = estimators_values[min_index]
+
+	# Define the values of max_features to be tested for (number of features to consider when looking for the best split)
+	features_values = [1, 2, 3, 4, 5, 6, 7, 8]	
+
+	# Create an empty list to store the rmse values in
+	rmse_list = []	
+
+	# Build a Random Forest Regression model with each of the values
+	# Predict the test set with the model and calculate the rmse
+	# Store the rmse in the rmse_list
+	for x in features_values:
+		model = RandomForestRegressor(n_estimators = estimators, max_features = x)
+		model.fit(train.iloc[:,2:], train.iloc[:,1])	
+
+		rmse = sqrt(mean_squared_error(test.iloc[:,1], model.predict(test.iloc[:,2:])))	
+
+		rmse_list.append(rmse)	
+
+	# Select the value that leads to the lowest error
+	min_index = rmse_list.index(min(rmse_list))
+	features = features_values[min_index]
+
+	# Define the values of min_samples_leaf to be tested for (minimum number of samples required to be at a leaf node)
+	samples_values = [1, 2, 3, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100]	
+
+	# Create an empty list to store the rmse values in
+	rmse_list = []	
+
+	# Build a Random Forest Regression model with each of the values
+	# Predict the test set with the model and calculate the rmse
+	# Store the rmse in the rmse_list
+	for x in samples_values:
+		model = RandomForestRegressor(n_estimators = estimators, max_features = features, min_samples_leaf = x)
+		model.fit(train.iloc[:,2:], train.iloc[:,1])	
+
+		rmse = sqrt(mean_squared_error(test.iloc[:,1], model.predict(test.iloc[:,2:])))	
+
+		rmse_list.append(rmse)	
+
+	# Select the value that leads to the lowest error
+	min_index = rmse_list.index(min(rmse_list))
+	samples = samples_values[min_index]
+	
 
 	## ------------------ FINAL MODEL -----------------------
-	# Create a new training and test set
-	train = data.sample(frac = 0.7)
-	test = data.drop(train.index)	
+	# Create a training and test set
+	train = data.sample(frac = 0.8)
+	test = data.drop(train.index)
 
 	# Run the model and predict
-	model = RandomForestRegressor(n_estimators = ntrees)
+	model = RandomForestRegressor(n_estimators = estimators, max_features = features, min_samples_leaf = samples)
 	model.fit(train.iloc[:,2:], train.iloc[:,1])
 	prediction = model.predict(test.iloc[:,2:])	
 
@@ -60,8 +103,8 @@ def buildmodel(inputfile, output_model, output_results):
 	var = list(model.feature_importances_)	
 
 	# Store results
-	names = ['ntree', 'mae', 'rmse', 'rsquared', 'day', 'hour', 'weekday', 'holiday', 'season', 'temperature', 'wind', 'precipitation']
-	values = [ntrees, mae, rmse, rsquared, var[0], var[1], var[2], var[3], var[4], var[5], var[6], var[7]]
+	names = ['estimators', 'features', 'samples', 'mae', 'rmse', 'rsquared', 'day', 'hour', 'weekday', 'holiday', 'season', 'temperature', 'wind', 'precipitation']
+	values = [estimators, features, samples, mae, rmse, rsquared, var[0], var[1], var[2], var[3], var[4], var[5], var[6], var[7]]
 	results = pd.DataFrame({'names': names, 'values': values})	
 
 	# Save results
