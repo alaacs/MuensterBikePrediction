@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="bikemunpredapp">
+<html lang="en" ng-app="bikemunpredapp" style="height:100%">
 
 <head>
   <meta charset="utf-8">
@@ -20,60 +20,56 @@
   <link href="css/main.css" rel="stylesheet">
 </head>
 
-<body id="page-top" ng-controller="BikeController" ng-init="load()">
-  <div class="container-fluid p-0">
-  <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="map_section">
+<body id="page-top" ng-controller="BikeController" ng-init="load()" style="height:100%">
+
+  <div class="container-fluid p-0 control-div justify-content-center" >
+    <div class="row">
+      <div class="btn-group btn-group-toggle justify-content-center align-self-center col-md-12 col-12 mb-4" data-toggle="buttons">
+        <label class="btn btn-light" ng-click="selectHistoryClicked()">
+              <input type="radio" name="options" id="option0" autocomplete="off" > Historic
+            </label>
+        <label class="btn btn-light active" ng-click="selectNowClicked()">
+              <input type="radio" name="options" id="option1" autocomplete="off"  checked> Now
+            </label>
+        <label class="btn btn-light" ng-click="selectPredictClicked()">
+              <input type="radio" name="options" id="option2" autocomplete="off" > Predict
+            </label>
+      </div>
+      <div style="margin-right: 120px;margin-left: 25px;">{{weatherPredicTemp}}</div> <br/><br/>
+      <div style="margin-right: 120px;margin-left: 25px;">{{weatherPredicPrecip}}</div> <br/><br/>
+      <div style="margin-right: 120px;margin-left: 25px;margin-bottom:15px">{{weatherPredicWindSpeed}}</div>
+    </div>
+    <div ng-show="predict" class="row justify-content-center col-md-12 col-12 mb-2 px-2">
+      <input type="date" name="from" id="predDate" >
+      <input type="time" class="ml-2" id="predTime" value="12:00">
+      <button type="button" class="btn btn-dark ml-2" ng-click="magicClicked()">Magic!</button>
+    </div>
+    <div class="row justify-content-center col-md-12 col-12 mb-2 px-2">
+        <div class="loader" id="loader" style="display:none"></div>
+    </div>
+  </div>
+    <div id="map" style="height:100%" >
+
+    </div>
+  <!-- <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="map_section">
     <div class="my-auto">
       <h2 class="mb-5">Münster Bike Stations</h2>
 
       <div class="container mx-0 px-0 mx-auto justify-content-center">
         <div class="row justify-content-center">
-          <div class="row">
-            <div class="btn-group btn-group-toggle justify-content-center align-self-center col-md-12 col-12 mb-4" data-toggle="buttons">
-              <label class="btn btn-light active" ng-click="selectRealtimeClicked()">
-                    <input type="radio" name="options" id="option1" autocomplete="off"  checked> Real Time
-                  </label>
-              <label class="btn btn-light" ng-click="selectPredictClicked()">
-                    <input type="radio" name="options" id="option2" autocomplete="off" > Predict
-                  </label>
-            </div>
-          </div>
-          <div ng-show="predict" class="row justify-content-center col-md-12 col-12 mb-2 px-2">
-            <input type="date" name="from" id="myDate" >
-          </div>
-          <div id="map" style="height:400px" class="col-md-12 col-12 mb-2 px-2">
+
+          <div id="map1" style="height:400px" class="col-md-12 col-12 mb-2 px-2">
 
           </div>
         </div>
       </div>
 
-      <!-- <nav class="bt-1 w-100" aria-label="Page navigation example">
-            <ul class="pagination pagination-sm justify-content-center" >
-              <li class="page-item disabled">
-                <a class="page-link bg-light" href="#" tabindex="-1"><</a>
-              </li>
-              <li class="page-item px-0 mx-0"><a class="page-link bg-light" href="#">'08</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'09</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'10</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'11</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'12</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'13</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'14</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'15</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'16</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'17</a></li>
-              <li class="page-item"><a class="page-link bg-light" href="#">'18</a></li>
-              <li class="page-item">
-                <a class="page-link bg-light" href="#">></a>
-              </li>
-            </ul>
-          </nav> -->
 
 
     </div>
 
     </div>
-  </section>
+  </section> -->
   <div style="font-size: x-small;">Icons made by <a href="https://www.flaticon.com/authors/nikita-golubev" title="Nikita Golubev">Nikita Golubev</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
   </div>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
