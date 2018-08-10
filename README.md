@@ -1,5 +1,7 @@
 "# MuensterBikePrediction"
 
+![alt text](https://raw.githubusercontent.com/alaacs/MuensterBikePrediction/master/WebAppScreenshot.JPG)
+
 Using Muenster City bike counter data publicly available [here](https://www.stadt-muenster.de/verkehrsplanung/verkehr-in-zahlen/radverkehrszaehlungen.html).
 
 Analysis was executed on the CSV files available on Stadt Muenster website to Predict the number of bikes that can pass by certain points around the city where there exist the bike counter poles.
