@@ -166,12 +166,12 @@ bikemunpredapp.controller('BikeController', ['$scope','$http',function BikeContr
   }
   $scope.httpRequestStationPrediction = function(station_id, predictionParameters)
   {
-    var predictionServerUrl += `?station_id=${station_id}`
+    var url = $scope.predictionServerUrl + `?station_id=${station_id}`
     +`&season=${predictionParameters.season}&day_of_week=${predictionParameters.dayOfWeek}&`
     +`is_weekday=${!predictionParameters.isWeekend}&is_holiday=${predictionParameters.isHoliday}`
     +`&hour=${predictionParameters.hour}&temperature=${predictionParameters.temperature}`
     +`&wind=${predictionParameters.wind}&precipitation=${predictionParameters.precipitation}`;
-    return $http({url:predictionServerUrl});
+    return $http({url:url});
   }
   $scope.getWeatherPredictionForDate = function(date){
     for (pred of $scope.weatherPredictions) {
